@@ -1,0 +1,10 @@
+sitemap Rolling_shutter label="Main Menu"
+{
+	Frame label="Volets"{
+		    Selection item=chambre_1 label="Chambre Julien [%s]" mappings=[UP="monter", DOWN="Descendre", MY="MY"]	
+			Selection item=chambre_2 label="Chambre Parent[%s]" mappings=[UP="monter", DOWN="Descendre", MY="MY"]	
+			Selection item=burreau label="Burreau[%s]" mappings=[UP="monter", DOWN="Descendre", MY="MY"]
+			Selection item=Allshutter label="Tout les volets[%s]" mappings=[UP="monter", DOWN="Descendre", MY="MY"]
+	}//end frame label lights
+
+}
