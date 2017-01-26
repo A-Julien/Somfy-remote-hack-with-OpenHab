@@ -1,0 +1,77 @@
+import org.openhab.core.library.types.*
+import java.lang.Math
+
+
+// Constants
+var Number K = 0.017453
+
+// Change this reflecting your destination
+var Number latitude = 45.1719831
+var Number longitude = 5.7585758
+
+
+rule "Set Sun and Dawn States"
+when Time cron "0/30 */0 * * * ?"
+then
+    var Number tageszahl
+    var Number deklination
+    var Number zeitgleichung
+    var Number stundenwinkel
+    var Number x 
+    var Number y
+    var Number sonnenhoehe
+    var Number azimut
+
+    var month  = now.getMonthOfYear
+    var day    = now.getDayOfMonth
+    var hour   = now.getHourOfDay
+    var minute = now.getMinuteOfHour
+
+    // Source: http://www.jgiesen.de/SME/tk/index.htm
+    tageszahl = (month - 1) * 30 + day + hour / 24 
+    deklination = -23.45 * Math::cos((K * 360 * (tageszahl + 10) / 365).doubleValue)
+    zeitgleichung = 60.0 * (-0.171 * Math::sin((0.0337*tageszahl+0.465).doubleValue) - 0.1299 * Math::sin((0.01787*tageszahl-0.168).doubleValue))
+    stundenwinkel = 15.0 * (hour.doubleValue + (minute.doubleValue/60.0) - (15.0-longitude)/15.0 - 12.0 + zeitgleichung/60.0)
+    x = Math::sin((K * latitude).doubleValue()) * Math::sin((K * deklination).doubleValue()) + Math::cos((K * latitude).doubleValue()) * Math::cos((K * deklination).doubleValue()) * Math::cos((K * stundenwinkel).doubleValue())
+    y = - (Math::sin((K*latitude).doubleValue) * x - Math::sin((K*deklination).doubleValue)) / (Math::cos((K*latitude).doubleValue) * Math::sin(Math::acos(x.doubleValue)))
+    sonnenhoehe = Math::asin(x.doubleValue) / K
+
+    var break = hour.doubleValue + (minute.doubleValue/60.0) <= 12.0 + (15.0-longitude)/15.0 - zeitgleichung/60.0 
+    if (break) {
+        azimut = Math::acos(y.doubleValue) / K
+    } else {
+        azimut = 360.0 - Math::acos(y.doubleValue) / K
+    }
+
+    logDebug("Sun.rules", "month: " + month)
+    logDebug("Sun.rules", "day: " + day)
+    logDebug("Sun.rules", "hour: " + hour)
+    logDebug("Sun.rules", "minute: " + minute)
+    logDebug("Sun.rules", "tageszahl: " + tageszahl)
+    logDebug("Sun.rules", "deklination: " + deklination)
+    logDebug("Sun.rules", "zeitgleichung: " + zeitgleichung)
+    logDebug("Sun.rules", "stundenwinkel: " + stundenwinkel)
+    logDebug("Sun.rules", "x: " + x)
+    logDebug("Sun.rules", "y: " + y)
+    logDebug("Sun.rules", "sonnenhoehe: " + sonnenhoehe)
+    logDebug("Sun.rules", "azimut: " + azimut)
+
+    logDebug("Sun.rules", "Calculated new SunHeight angle '" + sonnenhoehe + "°'")
+    logDebug("Sun.rules", "Calculated new Azimut angle '" + sonnenhoehe + "°'")
+
+    // Send all calculations to the event bus
+
+    Sun_Height.postUpdate(sonnenhoehe)
+    Sun_Azimut.postUpdate(azimut)
+/*
+    Sun_Dawn_Solar.postUpdate( if (sonnenhoehe < 0) ON else OFF )
+
+    postUpdate(Sun_Dawn_Civil,    if((sonnenhoehe <   0)  && (sonnenhoehe >=  -6) && (hour < 12)) {ON} else {OFF})
+    postUpdate(Sun_Dawn_Nautical,     if((sonnenhoehe <  -6)  && (sonnenhoehe >= -12) && (hour < 12)) {ON} else {OFF})
+    postUpdate(Sun_Dawn_Astronomical, if((sonnenhoehe < -12)  && (sonnenhoehe >= -18) && (hour < 12)) {ON} else {OFF})
+
+    postUpdate(Sun_Dusk_Civil,    if((sonnenhoehe <   0)  && (sonnenhoehe >=  -6) && (hour > 12)) {ON} else {OFF})
+    postUpdate(Sun_Dusk_Nautical,     if((sonnenhoehe <  -6)  && (sonnenhoehe >= -12) && (hour > 12)) {ON} else {OFF})
+    postUpdate(Sun_Dusk_Astronomical, if((sonnenhoehe < -12)  && (sonnenhoehe >= -18) && (hour > 12)) {ON} else {OFF})
+*/
+end
