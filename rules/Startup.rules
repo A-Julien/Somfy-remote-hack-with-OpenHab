@@ -5,4 +5,5 @@ then
 	sendCommand(itere,0)
 	logDebug("stratup", "itere = " + itere.state.toString)	
 	sendCommand(cronsec, 1) //boot the cron rules
+	logDebug("stratup", "coucou")		
 end
