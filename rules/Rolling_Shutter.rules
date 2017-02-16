@@ -1,18 +1,23 @@
 import org.openhab.model.script.actions.*
+import org.openhab.model.script.actions.Timer
 import org.openhab.core.library.types.*
 import org.openhab.core.persistence.*
 import org.openhab.core.types.*
+import org.jfree.data.time.RegularTimePeriod
 import org.openhab.*
 import java.util.ArrayList
 import java.util.List
 import java.util.date
 import org.joda.time.*
+import javax.swing.Timer
+
 
 var int Nbchoix = 5
 var boolean lock = true
 var boolean lock2 = true
-val ArrayList<String> Buffer = newArrayList()
-var int waitime = 200
+val ArrayList<String> Buffer = new ArrayList()
+var int waitime = 100
+var int waitime2 = 100
 
 rule Position
 when 
@@ -22,8 +27,10 @@ then
 	val com = receivedCommand.toString.splitByWholeSeparator(":")
 	val choix = com.get(0)
 	var int choixNUM = Integer::parseInt(com.get(1))
-	var Number count = 0
+	var Number count = 0	
+	logDebug("Positioning rule","5s avant")
 	
+	logDebug("Positioning rule","5s apres")
 	//--- Init GPIO--//
 	logDebug("Positioning rule","Init gpio")
 	sendCommand(CommandChoice,OFF)
@@ -41,11 +48,14 @@ then
 	switch(choix){
 		case "GO":{
 			logDebug("Positioning rule","Direction : Go")
-			while(count < choixNUM){
-				sendCommand(CommandChoice,ON)
-				Thread::sleep(waitime)
+				sendCommand(waittime, ON)
+			//	Thread::sleep(waitime)
 				sendCommand(CommandChoice,OFF)
-				Thread::sleep(waitime)
+				//Thread::sleep(waitime)
+				while(time != 31){
+					time = time + 1
+					logDebug("t","time : " + time)
+				}time = 0
 				count = count + 1
 				logDebug("rolling shutter","->Cursor Position  : " + count)
 			}
@@ -58,9 +68,17 @@ then
 			choixNUM = Nbchoix - choixNUM
 			while(count < choixNUM){
 				sendCommand(CommandChoice,ON)
-				Thread::sleep(waitime)
+			//	Thread::sleep(waitime)
+			while(time != 31){
+					time = time + 1
+					logDebug("t","time : " + time)
+				}time = 0
 				sendCommand(CommandChoice,OFF)
-				Thread::sleep(waitime)
+			//	Thread::sleep(waitime)
+			while(time != 31){
+					time = time + 1
+					logDebug("t","time : " + time)
+				}time = 0
 				count = count + 1
 				logDebug("rolling shutter","->Cursor Position : " + (choixNUM - count))
 			}
@@ -94,20 +112,22 @@ then
 			logDebug("Room","UP")
 			sendCommand(UPCOM,ON)
 			Thread::sleep(waitime)
+	//		new Handler().postDelayed(new Runnable() {}, 5000L);
+	
 			sendCommand(UPCOM,OFF)
-			Thread::sleep(50)
+			Thread::sleep(waitime2)
 		}
 		case "DOWN":{
 			logDebug("Room","DOWN")
 			sendCommand(DOWNCOM,ON)
-			Thread::sleep(50)
+			Thread::sleep(waitime2)
 			sendCommand(DOWNCOM,OFF)
-			Thread::sleep(50)
+			Thread::sleep(waitime2)
 		}
 		case "MY":{
 			logDebug("Room","MY")
 			sendCommand(MY,ON)
-			Thread::sleep(50)
+			Thread::sleep(waitime2)
 			sendCommand(MY,OFF)
 		}
 	}
@@ -156,7 +176,7 @@ rule CronSec
 when
 	Time cron  "0/5 * * * * ?"
 then
- 	if(lock2 && lock && Integer::parseInt(itere.state.toString) != 0){
+ 	if((!lock2 && !lock) && (Integer::parseInt(itere.state.toString) != 0)){
 		sendCommand(buff, 1)
 	}else{
 		switch(Integer::parseInt(itere.state.toString)){
@@ -193,6 +213,27 @@ then
 	logDebug("weather", "Temperature" + Temperature +" Humidity = " + Hum)
 end
 
+rule wait
+when
+	Item waittime received command	
+then
+	var time = 0
+		while(time != 31){
+			time = time + 1
+			logDebug("t","time : " + time)
+	}
+		time = 0
+end
+
+rule PushBtn
+when
+	Item pushbtn received command
+then
+	sendCommand(CommandChoice,ON)
+	Thread::sleep(waitime)
+	sendCommand(CommandChoice,OFF)
+	Thread::sleep(waitime)
+end
 
 // A faire
 // Remplacer item Itere par la taille du tableau (il faut récupe cb il reste de valeur dans le buffer)

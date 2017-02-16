@@ -7,6 +7,12 @@ sitemap Rolling_shutter label="Main Menu"
 			Switch item=shutter 	label="TOUT" 	mappings=["UP:5"="UP", "DOWN:5"="Down", "MY:5"="MY"]
 	}
 	
+	Frame label="Volets"{
+		    
+			
+			Switch item=pushbtn 	label="PushBtn" 	
+	}
+	
 	Frame label="Meteo"{
 			Text   item=Temp 		label="Temperature : [%s]  en *C"
 			Text   item=Humidity 	label="Humidité :	 [%s]  en %"
