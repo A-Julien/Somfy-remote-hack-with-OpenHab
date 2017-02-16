@@ -1,0 +1,7 @@
+var time = 0
+val int wait = 700
+
+while(time != wait){
+	time = time + 1
+	logDebug("t",""+time)
+}

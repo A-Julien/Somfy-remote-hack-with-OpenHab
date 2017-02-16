@@ -1,8 +1,9 @@
 var time = 0
-var wait = 20
+val int wait = 20
+var  f = "."
 
 while(time != wait){
 	time = time + 1
-	logDebug("t","" + time)
+	f = f + "."
+	logDebug("t",""+f)
 }
-	

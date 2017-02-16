@@ -1,16 +1,7 @@
 import org.openhab.model.script.actions.*
-import org.openhab.model.script.actions.Timer
 import org.openhab.core.library.types.*
-import org.openhab.core.persistence.*
 import org.openhab.core.types.*
-import org.jfree.data.time.RegularTimePeriod
-import org.openhab.*
 import java.util.ArrayList
-import java.util.List
-import java.util.date
-import org.joda.time.*
-import javax.swing.Timer
-import org.openhab.*
 
 
 var int Nbchoix = 5
@@ -24,9 +15,14 @@ when
 	Item test received command
 then
 logDebug(" ule","fdp")
-callScript("timer")
+//callScript("timer")
 	//timer = createTimer(now.plusMillis(5000),[|logDebug(" ule","fdp2")
 	//timer = null])
+	Buffer.add("test1")
+	Buffer.add("test2")
+logDebug(" ule","buff" + Buffer.last)
+ Buffer.remove(Buffer.last)
+logDebug(" ule","buff" + Buffer.last)
 logDebug(" ule","fin fdp")
 end
  //*/
@@ -80,13 +76,8 @@ then
 				count = count + 1
 				logDebug("rolling shutter","->Cursor Position : " + (choixNUM - count))
 			}
-			logDebug("Positioning", " itere = " + itere.state.toString)
 			logDebug("Positioning","Waiting")
-			var time = 0
-			while(time != 700){
-				time = time + 1
-				logDebug("t","" + time)
-			}
+			callScript("long_timer")
 			logDebug("Positioning","end")
 			lock = true
 		}
@@ -150,7 +141,6 @@ then
 				case true :{
 					logDebug("Safty","lock2: OK")
 					Buffer.add(receivedCommand.toString)
-					sendCommand(itere, Integer::parseInt(itere.state.toString) + 1)
 				}
 				case false :{
 					logInfo("Safty","can't add to buffer")
@@ -164,12 +154,10 @@ rule buffer
 when 
 	Item buff received command
 then
-	lock2 = false
 	lock = false
-	sendCommand(order, Buffer.get(Integer::parseInt(itere.state.toString) -1))
-	logDebug("COM","CMD SENT " + Buffer.get(Integer::parseInt(itere.state.toString) -1) )
-	Buffer.remove(Integer::parseInt(itere.state.toString) - 1)
-	sendCommand(itere ,Integer::parseInt(itere.state.toString) - 1)
+	sendCommand(order, Buffer.last)
+	logDebug("COM","CMD SENT " + Buffer.last )
+	Buffer.remove(Buffer.last)
 	lock2 = true
 end
 			
@@ -177,15 +165,19 @@ rule CronSec
 when
 	Time cron  "0/5 * * * * ?"
 then
- 	if((!lock2 && !lock) && (Integer::parseInt(itere.state.toString) != 0)){
+	logDebug("cron", "lock = " + lock + ", lock 2 = " + lock2 + ", Buffersize = " + Buffer.size)
+	
+ 	if(lock2 && lock && Buffer.size != 0){
 		sendCommand(buff, 1)
+		lock2 = false
 	}else{
-		switch(Integer::parseInt(itere.state.toString)){
+		switch(Buffer.size){
 			case 0 :{
 				logDebug("CronSec","void buffer" )
 			}
 			default :{
 				logDebug("CronSec","Already lock" )
+				logDebug("cron","Buffer = " + Buffer.toString)
 			}
 		}
 	}
