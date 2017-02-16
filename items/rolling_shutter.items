@@ -4,23 +4,22 @@
 
 Number choice
 String shutter
-Switch CommandChoice "" { gpio="pin:12" }
-Switch UPCOM "" { gpio="pin:21" }
-Switch DOWNCOM "" { gpio="pin:16" }
-Switch MY "" { gpio="pin:20" }
+Switch CommandChoice//"" { gpio="pin:12" }
+Switch UPCOM //"" { gpio="pin:21" }
+Switch DOWNCOM// "" { gpio="pin:16" }
+Switch MY // "" { gpio="pin:20" }
 String Positioning ""
 String Process
 String order
+
+Switch test
 
 
 Number buff
 Number itere
 Number cronsec
-
-Switch pushbtn
 Switch waittime
-
-
+Switch pushbtn
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //														DETECT SHUTTER															  //		
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

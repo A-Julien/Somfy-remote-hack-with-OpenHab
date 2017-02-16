@@ -10,7 +10,8 @@ sitemap Rolling_shutter label="Main Menu"
 	Frame label="Volets"{
 		    
 			
-			Switch item=pushbtn 	label="PushBtn" 	
+			Switch item=pushbtn 	label="PushBtn" 
+			Switch item=test 	label="test" 	
 	}
 	
 	Frame label="Meteo"{

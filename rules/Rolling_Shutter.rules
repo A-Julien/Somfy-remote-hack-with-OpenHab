@@ -10,15 +10,27 @@ import java.util.List
 import java.util.date
 import org.joda.time.*
 import javax.swing.Timer
+import org.openhab.*
 
 
 var int Nbchoix = 5
 var boolean lock = true
 var boolean lock2 = true
 val ArrayList<String> Buffer = new ArrayList()
-var int waitime = 100
-var int waitime2 = 100
 
+
+rule test
+when 
+	Item test received command
+then
+logDebug(" ule","fdp")
+callScript("timer")
+	//timer = createTimer(now.plusMillis(5000),[|logDebug(" ule","fdp2")
+	//timer = null])
+logDebug(" ule","fin fdp")
+end
+ //*/
+ 
 rule Position
 when 
 	Item Positioning received command
@@ -41,26 +53,20 @@ then
 	//--Wake UP--//
 	logDebug("Positioning rule","Wake up remote")
 	sendCommand(CommandChoice,ON)
-	Thread::sleep(waitime)
+	callScript("timer")
 	sendCommand(CommandChoice,OFF)
-	Thread::sleep(waitime)
-	
+	callScript("timer")	
 	switch(choix){
 		case "GO":{
 			logDebug("Positioning rule","Direction : Go")
-				sendCommand(waittime, ON)
-			//	Thread::sleep(waitime)
-				sendCommand(CommandChoice,OFF)
-				//Thread::sleep(waitime)
-				while(time != 31){
-					time = time + 1
-					logDebug("t","time : " + time)
-				}time = 0
-				count = count + 1
-				logDebug("rolling shutter","->Cursor Position  : " + count)
-			}
+			callScript("timer")
+			sendCommand(CommandChoice,OFF)
+			logDebug("rule","TUATTENDBORDEL")
+			callScript("timer")
+			count = count + 1
+			logDebug("rolling shutter","->Cursor Position  : " + count)
 			sendCommand(Process, "OK")
-		}
+			}
 		case "RETURN":{
 		//	Thread::sleep(100)
 			logDebug("Positioning rule","Direction : Return")
@@ -68,23 +74,20 @@ then
 			choixNUM = Nbchoix - choixNUM
 			while(count < choixNUM){
 				sendCommand(CommandChoice,ON)
-			//	Thread::sleep(waitime)
-			while(time != 31){
-					time = time + 1
-					logDebug("t","time : " + time)
-				}time = 0
+				callScript("timer")
 				sendCommand(CommandChoice,OFF)
-			//	Thread::sleep(waitime)
-			while(time != 31){
-					time = time + 1
-					logDebug("t","time : " + time)
-				}time = 0
+				callScript("timer")
 				count = count + 1
 				logDebug("rolling shutter","->Cursor Position : " + (choixNUM - count))
 			}
 			logDebug("Positioning", " itere = " + itere.state.toString)
 			logDebug("Positioning","Waiting")
-			Thread::sleep(7000)
+			var time = 0
+			while(time != 700){
+				time = time + 1
+				logDebug("t","" + time)
+			}
+			logDebug("Positioning","end")
 			lock = true
 		}
 	}
@@ -111,23 +114,21 @@ then
 		case "UP":{
 			logDebug("Room","UP")
 			sendCommand(UPCOM,ON)
-			Thread::sleep(waitime)
-	//		new Handler().postDelayed(new Runnable() {}, 5000L);
-	
+			callScript("timer")
 			sendCommand(UPCOM,OFF)
-			Thread::sleep(waitime2)
+			
 		}
 		case "DOWN":{
 			logDebug("Room","DOWN")
 			sendCommand(DOWNCOM,ON)
-			Thread::sleep(waitime2)
+			callScript("timer")
 			sendCommand(DOWNCOM,OFF)
-			Thread::sleep(waitime2)
+			callScript("timer")
 		}
 		case "MY":{
 			logDebug("Room","MY")
 			sendCommand(MY,ON)
-			Thread::sleep(waitime2)
+			callScript("timer")
 			sendCommand(MY,OFF)
 		}
 	}
@@ -213,26 +214,14 @@ then
 	logDebug("weather", "Temperature" + Temperature +" Humidity = " + Hum)
 end
 
-rule wait
-when
-	Item waittime received command	
-then
-	var time = 0
-		while(time != 31){
-			time = time + 1
-			logDebug("t","time : " + time)
-	}
-		time = 0
-end
-
 rule PushBtn
 when
 	Item pushbtn received command
 then
 	sendCommand(CommandChoice,ON)
-	Thread::sleep(waitime)
+	callScript("timer")
 	sendCommand(CommandChoice,OFF)
-	Thread::sleep(waitime)
+	callScript("timer")
 end
 
 // A faire
