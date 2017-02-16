@@ -25,8 +25,7 @@ logDebug(" ule","buff" + Buffer.last)
 logDebug(" ule","buff" + Buffer.last)
 logDebug(" ule","fin fdp")
 end
- //*/
- 
+  
 rule Position
 when 
 	Item Positioning received command
@@ -130,37 +129,11 @@ rule Safty
 when 
 	Item shutter received command
 then
-	logDebug("Safty","lock =" + lock.booleanValue.toString)
-	if(lock){
-			lock = false
-			logDebug("Safty","lock  = " + lock.booleanValue.toString)
-			sendCommand(order, receivedCommand.toString)
-		}else{
-			logDebug("Safty","lock NOT OK")
-			switch(lock2){
-				case true :{
-					logDebug("Safty","lock2: OK")
-					Buffer.add(receivedCommand.toString)
-				}
-				case false :{
-					logInfo("Safty","can't add to buffer")
-				}
-			}
-		}
+	Buffer.add(receivedCommand.toString)
+	logDebug("cron","Buffer = " + Buffer.toString)
 end
-		
-rule buffer
 
-when 
-	Item buff received command
-then
-	lock = false
-	sendCommand(order, Buffer.last)
-	logDebug("COM","CMD SENT " + Buffer.last )
-	Buffer.remove(Buffer.last)
-	lock2 = true
-end
-			
+
 rule CronSec
 when
 	Time cron  "0/5 * * * * ?"
@@ -168,7 +141,11 @@ then
 	logDebug("cron", "lock = " + lock + ", lock 2 = " + lock2 + ", Buffersize = " + Buffer.size)
 	
  	if(lock2 && lock && Buffer.size != 0){
-		sendCommand(buff, 1)
+		lock = false
+		sendCommand(order, Buffer.last)
+		logDebug("COM","CMD SENT " + Buffer.last )
+		Buffer.remove(Buffer.last)
+		lock2 = true
 		lock2 = false
 	}else{
 		switch(Buffer.size){
@@ -217,6 +194,42 @@ then
 end
 
 // A faire
-// Remplacer item Itere par la taille du tableau (il faut récupe cb il reste de valeur dans le buffer)
 // Remplacer while d'attente par un Lock
+//Verifier la stabilité du timer
+
+
+/*	
+rule buffer
+
+when 
+	Item buff received command
+then
+	lock = false
+	sendCommand(order, Buffer.last)
+	logDebug("COM","CMD SENT " + Buffer.last )
+	Buffer.remove(Buffer.last)
+	lock2 = true
+end
+*/	
+
+/* 
+	logDebug("Safty","lock =" + lock.booleanValue.toString)
+	if(lock){
+			lock = false
+			logDebug("Safty","lock  = " + lock.booleanValue.toString)
+			sendCommand(order, receivedCommand.toString)
+		}else{
+			logDebug("Safty","lock NOT OK")
+			switch(lock2){
+				case true :{
+					logDebug("Safty","lock2: OK")
+					Buffer.add(receivedCommand.toString)
+				}
+				case false :{
+					logInfo("Safty","can't add to buffer")
+				}
+			}
+		}
+		
+*/
 
