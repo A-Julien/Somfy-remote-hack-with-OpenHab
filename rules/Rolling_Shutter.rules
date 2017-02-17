@@ -18,11 +18,7 @@ logDebug(" ule","fdp")
 //callScript("timer")
 	//timer = createTimer(now.plusMillis(5000),[|logDebug(" ule","fdp2")
 	//timer = null])
-	Buffer.add("test1")
-	Buffer.add("test2")
-logDebug(" ule","buff" + Buffer.last)
- Buffer.remove(Buffer.last)
-logDebug(" ule","buff" + Buffer.last)
+callScript("Timer_timer")
 logDebug(" ule","fin fdp")
 end
   
@@ -35,9 +31,7 @@ then
 	val choix = com.get(0)
 	var int choixNUM = Integer::parseInt(com.get(1))
 	var Number count = 0	
-	logDebug("Positioning rule","5s avant")
 	
-	logDebug("Positioning rule","5s apres")
 	//--- Init GPIO--//
 	logDebug("Positioning rule","Init gpio")
 	sendCommand(CommandChoice,OFF)
@@ -51,6 +45,7 @@ then
 	callScript("timer")
 	sendCommand(CommandChoice,OFF)
 	callScript("timer")	
+	
 	switch(choix){
 		case "GO":{
 			logDebug("Positioning rule","Direction : Go")
