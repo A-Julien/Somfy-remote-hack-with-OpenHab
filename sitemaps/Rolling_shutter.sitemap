@@ -4,14 +4,14 @@ sitemap Rolling_shutter label="Main Menu"
 		    Switch item=shutter 	label="Julien" 	mappings=["UP:3"="UP", "DOWN:3"="Down", "MY:3"="MY"]	
 			Switch item=shutter 	label="Parent" 	mappings=["UP:2"="UP", "DOWN:2"="Down", "MY:2"="MY"]	
 			Switch item=shutter 	label="Burreau"	mappings=["UP:1"="UP", "DOWN:1"="Down", "MY:1"="MY"]
-			Switch item=shutter 	label="TOUT" 	mappings=["UP:5"="UP", "DOWN:5"="Down", "MY:5"="MY"]
+			Switch item=shutter 	label="TOUT" 	mappings=["UP:0"="UP", "DOWN:0"="Down", "MY:0"="MY"]
 	}
 	
 	Frame label="Volets"{
 		    
 			
 			Switch item=pushbtn 	label="PushBtn" 
-			Switch item=test 	label="test" 	
+			Switch item=test 	label="test" 
 	}
 	
 	Frame label="Meteo"{

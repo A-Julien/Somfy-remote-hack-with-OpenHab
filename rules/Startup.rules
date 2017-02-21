@@ -2,6 +2,6 @@ rule Startup
 when 
 	System started
 then
-	sendCommand(cronsec, 1) //boot the cron rules
+	//sendCommand(cronsec, 1) //boot the cron rules
 	logDebug("stratup", "coucou")		
 end

@@ -8,7 +8,6 @@ var int Nbchoix = 5
 var boolean lock = true
 val ArrayList<String> Buffer = new ArrayList()
 
-
 rule test
 when 
 	Item test received command
@@ -47,14 +46,16 @@ then
 	
 	switch(choix){
 		case "GO":{
-			logDebug("Positioning rule","Direction : Go")
-			callScript("timer")
-			sendCommand(CommandChoice,OFF)
-			callScript("timer")
-			count = count + 1
-			logDebug("rolling shutter","->Cursor Position  : " + count)
-			sendCommand(Process, "OK")
+			while(count < choixNUM){
+				sendCommand(CommandChoice,ON)
+				callScript("timer")
+				sendCommand(CommandChoice,OFF)
+				callScript("timer")
+				count = count + 1
+				logDebug("rolling shutter","->Cursor Position  : " + count)
 			}
+			sendCommand(Process,"OK")
+		}
 		case "RETURN":{
 		//	Thread::sleep(100)
 			logDebug("Positioning rule","Direction : Return")

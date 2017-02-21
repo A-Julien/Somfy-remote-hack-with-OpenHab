@@ -1,9 +1,14 @@
-var time = 0
-val int wait = 20
-var  f = "."
+//var time = 0
+val int wait = 500
+//var  f = "."
 
+Thread::sleep(wait)
+
+/*
 while(time != wait){
 	time = time + 1
 	f = f + "."
 	logDebug("t",""+f)
 }
+
+*/

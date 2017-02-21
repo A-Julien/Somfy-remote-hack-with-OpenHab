@@ -1,5 +1,5 @@
 var time = 0
-val int wait = 700
+val int wait = 400
 
 while(time != wait){
 	time = time + 1
