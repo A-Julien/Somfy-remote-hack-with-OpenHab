@@ -1,5 +1,5 @@
 //var time = 0
-val int wait = 500
+val int wait = 400
 //var  f = "."
 
 Thread::sleep(wait)
