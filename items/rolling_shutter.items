@@ -3,7 +3,7 @@
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 Number choice
-String shutter
+String shutter <rollershutter>
 Switch CommandChoice "" { gpio="pin:12" }
 Switch UPCOM "" { gpio="pin:21" }
 Switch DOWNCOM "" { gpio="pin:16" }
@@ -11,7 +11,6 @@ Switch MY  "" { gpio="pin:20" }
 String Positioning ""
 String Process
 String order
-
 Switch test
 
 
@@ -32,3 +31,12 @@ String Detect
 String weather
 String Humidity
 String Temp
+
+Number Temperature_Out "Temperature [%.1f °C]" <temperature> (Temperature, GF_Living) {mqtt="<[mosquitto:/sensor1/tem:state:default]"}
+Number Humidity_Out "Humidity [%.1f %%]" <water> (Humidity, GF_Living) {mqtt="<[mosquitto:/sensor1/hum:state:default]"}
+
+Number Temperature_Out2 "Temperature2 [%.1f °C]" <temperature> (Temperature, GF_Living) {mqtt="<[mosquitto:/sensor2/tem:state:default]"}
+Number Humidity_Out2 "Humidity2 [%.1f %%]" <water> (Humidity, GF_Living) {mqtt="<[mosquitto:/sensor2/hum:state:default]"}
+Number Hum2 "Humidity2 [%.1f %%]" <water>
+
+String lum "Luminosité [lux]" <sun>  {mqtt="<[mosquitto:/sensor1/lum:state:default]"}

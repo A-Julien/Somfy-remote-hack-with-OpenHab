@@ -1,5 +1,10 @@
 sitemap Rolling_shutter label="Main Menu"
 {
+	Frame label="Meteo"{
+			Text   item=Temperature_Out 		label="Temperature : [%s] °C"
+			Text   item=Humidity_Out 	label="Humidité :	 [%s] %"
+			Text   item=lum 	label="Luminosité :	 [%s] lux"
+	}
 	Frame label="Volets"{
 		    Switch item=shutter 	label="Julien" 	mappings=["UP:3"="UP", "DOWN:3"="Down", "MY:3"="MY"]	
 			Switch item=shutter 	label="Parent" 	mappings=["UP:2"="UP", "DOWN:2"="Down", "MY:2"="MY"]	
@@ -7,17 +12,13 @@ sitemap Rolling_shutter label="Main Menu"
 			Switch item=shutter 	label="TOUT" 	mappings=["UP:0"="UP", "DOWN:0"="Down", "MY:0"="MY"]
 	}
 	
-	Frame label="Volets"{
-		    
-			
-			Switch item=pushbtn 	label="PushBtn" 
-			Switch item=test 	label="test" 
+	Frame label="Controle"{
+			Text   item=Temperature_Out2 		label="TemperatureContrôle : [%s] °C"
+			Text   item=Hum2 	label="HumiditéContrôle :	 [%s] %"
 	}
 	
-	Frame label="Meteo"{
-			Text   item=Temp 		label="Temperature : [%s]  en *C"
-			Text   item=Humidity 	label="Humidité :	 [%s]  en %"
-	}
+	
+	
 	
 
 }

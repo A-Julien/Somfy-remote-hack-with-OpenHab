@@ -2,6 +2,7 @@ import org.openhab.model.script.actions.*
 import org.openhab.core.library.types.*
 import org.openhab.core.types.*
 import java.util.ArrayList
+import java.lang.Math
 
 
 var int Nbchoix = 5
@@ -179,6 +180,15 @@ end
 // A faire
 //Verifier la stabilité du timer
 
+rule debug
+when
+	Item Humidity_Out2 changed
+then
+	var hum = Float::parseFloat(Humidity_Out2.state.toString)
+	hum = (hum * 30)/50
+	sendCommand(Hum2, hum)
+	logDebug("weather", "Temperature : " + Temperature_Out.state.toString)
+end
 
 /*	
 rule buffer
