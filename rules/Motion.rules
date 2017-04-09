@@ -1,0 +1,28 @@
+import org.openhab.model.script.actions.*
+import org.openhab.core.library.types.*
+
+//var int count = 0
+
+rule Sensor_motion
+when
+	Item Motion changed
+then
+	logDebug("Motion", "State" + Integer::parseInt(Motion.state.toString))
+	if(Integer::parseInt(Motion.state.toString) == 1){
+		sendCommand(Motion_S,"Motion detected")
+//		count = count + 1
+		sendCommand(countMotion, (Integer::parseInt(countMotion.state.toString) + 1))
+		logDebug("Motion", "Count " + Integer::parseInt(countMotion.state.toString))	
+				
+	}else{
+		sendCommand(Motion_S,"Motion end")
+	}
+end
+
+rule ResetCount
+when
+	Item reset changed
+then
+	sendCommand(countMotion, 0)
+	logDebug("Reset_Motion", "Reset ! : " + Integer::parseInt(countMotion.state.toString))	
+end

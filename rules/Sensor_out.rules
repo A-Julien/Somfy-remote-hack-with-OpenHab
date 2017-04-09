@@ -1,0 +1,71 @@
+import org.openhab.model.script.actions.*
+import org.openhab.core.library.types.*
+import org.openhab.core.types.*
+import java.lang.Math.pow
+
+/*
+rule meteo
+when
+	Item weather received command
+then
+	
+	val Temperature = receivedCommand.toString.splitByWholeSeparator("=").get(0)
+	val Hum = receivedCommand.toString.splitByWholeSeparator("=").get(1)
+	
+	if(Temperature.length <= 4){sendCommand(Temp, Temperature)}else{sendCommand(Temp, Temperature.substring(0,4))}
+	
+	if(Hum.length <= 4){sendCommand(Humidity, Hum)}else{sendCommand(Humidity, Hum.substring(0,4))}
+	
+	logDebug("weather", "Temperature" + Temperature +" Humidity = " + Hum)
+end
+ */
+
+rule Temp_Out
+when
+	Item Temperature_Out changed or Item temp_Bmp  changed
+then
+	val temp = (Float::parseFloat(Temperature_Out.state.toString)+Float::parseFloat(temp_Bmp.state.toString))/2
+	sendCommand(Temperature, temp)
+	logDebug("Temperature_Out", "Temperature_Out :" + Temperature_Out.state.toString)
+	logDebug("Temperature_Out", "temp_Bmp :" + temp_Bmp.state.toString)
+	logDebug("Temperature_Out", "Moyenne :" + Temperature.state.toString)
+	
+	
+end
+
+rule Lumen
+when
+	Item Lum changed
+then
+	var int l =  Integer::parseInt(Lum.state.toString)
+	switch(l){
+		case l<10:{
+			sendCommand(Luminosity, "Noir")
+		}
+		case l<200:{
+			sendCommand(Luminosity, "Sombre")
+		}
+		case l<500:{
+			sendCommand(Luminosity, "Lumiere")
+		}
+		case l<800:{
+			sendCommand(Luminosity, "Lumineux")
+		}
+		default:{
+			sendCommand(Luminosity, "Trés lumineux")
+		}
+	}
+ end
+ 
+ rule Baro
+ when
+ 	Item pressure changed
+then
+		logDebug("Pressure", "Pressure :" + pressure.state.toString)
+	sendCommand(Pressure,(Float::parseFloat(pressure.state.toString)*Math::pow(10,-2)))
+	
+end
+
+
+
+

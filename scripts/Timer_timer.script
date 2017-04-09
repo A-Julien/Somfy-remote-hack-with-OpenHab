@@ -1,0 +1,7 @@
+var time = 0
+val int wait = 700
+var org.openhab.model.script.actions.Timer timer = null
+timer = createTimer(now.plusMillis(5000),
+                   logDebug("t","Timer")
+                   timer = null
+                   ])

@@ -13,7 +13,7 @@ rule test
 when 
 	Item test received command
 then
-logDebug(" ule","fdp")
+logDebug(" rule","fdp")
 //callScript("timer")
 	//timer = createTimer(now.plusMillis(5000),[|logDebug(" ule","fdp2")
 	//timer = null])
@@ -123,18 +123,18 @@ rule CronSec
 when
 	Time cron  "0/5 * * * * ?"
 then
-	logDebug("cron", "lock = " + lock + ", Buffersize = " + Buffer.size)
+	//logDebug("cron", "lock = " + lock + ", Buffersize = " + Buffer.size)
 	
  	if( lock && Buffer.size != 0){
 		lock = false
 		sendCommand(order, Buffer.last)
-		logDebug("COM","CMD SENT " + Buffer.last )
+	//	logDebug("COM","CMD SENT " + Buffer.last )
 		var position = Buffer.last.toString.splitByWholeSeparator(":").get(1)
 		sendCommand(Positioning, "GO:" + position)
 	}else{
 		switch(Buffer.size){
 			case 0 :{
-				logDebug("CronSec","void buffer" )
+				//logDebug("CronSec","void buffer" )
 			}
 			default :{
 				logDebug("CronSec","Already lock" )
@@ -152,21 +152,6 @@ then
 	logDebug("metal","SHUTTER DETECTED" )
 end
 
-rule meteo
-when
-	Item weather received command
-then
-	
-	val Temperature = receivedCommand.toString.splitByWholeSeparator("=").get(0)
-	val Hum = receivedCommand.toString.splitByWholeSeparator("=").get(1)
-	
-	if(Temperature.length <= 4){sendCommand(Temp, Temperature)}else{sendCommand(Temp, Temperature.substring(0,4))}
-	
-	if(Hum.length <= 4){sendCommand(Humidity, Hum)}else{sendCommand(Humidity, Hum.substring(0,4))}
-	
-	logDebug("weather", "Temperature" + Temperature +" Humidity = " + Hum)
-end
-
 rule PushBtn
 when
 	Item pushbtn received command
@@ -179,15 +164,6 @@ end
 
 // A faire
 //Verifier la stabilité du timer
-
-
-
-rule Temp_Out
-when
-	Item Temperature_Out changed
-then
-	logDebug("Temperature_Out", "Temperature_Out :" + Temperature_Out.state.toString)
-end
 /*
 rule debug
 when
