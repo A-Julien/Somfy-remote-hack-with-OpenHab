@@ -180,6 +180,15 @@ end
 // A faire
 //Verifier la stabilité du timer
 
+
+
+rule Temp_Out
+when
+	Item Temperature_Out changed
+then
+	logDebug("Temperature_Out", "Temperature_Out :" + Temperature_Out.state.toString)
+end
+/*
 rule debug
 when
 	Item Humidity_Out2 changed
@@ -190,7 +199,7 @@ then
 	logDebug("weather", "Temperature : " + Temperature_Out.state.toString)
 end
 
-/*	
+	
 rule buffer
 
 when 

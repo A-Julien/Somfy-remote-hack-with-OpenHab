@@ -1,9 +1,14 @@
 sitemap Rolling_shutter label="Main Menu"
 {
 	Frame label="Meteo"{
-			Text   item=Temperature_Out 		label="Temperature : [%s] °C"
+			Text   item=Temperature_Out valuecolor=[>30="red",>25="orange",>15="green",>5="orange",<=5="blue"] label="Temperature : [%s] °C"
 			Text   item=Humidity_Out 	label="Humidité :	 [%s] %"
 			Text   item=lum 	label="Luminosité :	 [%s] lux"
+	}
+	Frame label="Barometre"{
+			Text   item=Pressure 		label="Hp : [%s]"
+			Text   item=Alti     label="M : [%s]"
+			Text   item=temp_Bmp label="Temperature [%s] °C"
 	}
 	Frame label="Volets"{
 		    Switch item=shutter 	label="Julien" 	mappings=["UP:3"="UP", "DOWN:3"="Down", "MY:3"="MY"]	
@@ -11,14 +16,9 @@ sitemap Rolling_shutter label="Main Menu"
 			Switch item=shutter 	label="Burreau"	mappings=["UP:1"="UP", "DOWN:1"="Down", "MY:1"="MY"]
 			Switch item=shutter 	label="TOUT" 	mappings=["UP:0"="UP", "DOWN:0"="Down", "MY:0"="MY"]
 	}
-	
-	Frame label="Controle"{
-			Text   item=Temperature_Out2 		label="TemperatureContrôle : [%s] °C"
-			Text   item=Hum2 	label="HumiditéContrôle :	 [%s] %"
+	Frame label="Motion"{
+			Text   item=Motion_S 		label="Motion : [%s]"
+			Text   item=countMotion     label="Count : [%s]"
+			Switch item=reset
 	}
-	
-	
-	
-	
-
 }
