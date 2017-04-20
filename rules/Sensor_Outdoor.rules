@@ -22,9 +22,9 @@ end
 
 rule Temp_Out
 when
-	Item Temperature_Out changed or Item temp_Bmp  changed
+	Item Temperature_Out changed or Item temp_Bmp changed
 then
-	val temp = (Float::parseFloat(Temperature_Out.state.toString)+Float::parseFloat(temp_Bmp.state.toString))/2
+	val temp = (Float::parseFloat(Temperature_Out.state.toString)+(Float::parseFloat(temp_Bmp.state.toString)-1))/2
 	sendCommand(Temperature, temp)
 	logDebug("Temperature_Out", "Temperature_Out :" + Temperature_Out.state.toString)
 	logDebug("Temperature_Out", "temp_Bmp :" + temp_Bmp.state.toString)
@@ -61,7 +61,7 @@ then
  when
  	Item pressure changed
 then
-		logDebug("Pressure", "Pressure :" + pressure.state.toString)
+	logDebug("Pressure", "Pressure :" + pressure.state.toString)
 	sendCommand(Pressure,(Float::parseFloat(pressure.state.toString)*Math::pow(10,-2)))
 	
 end
