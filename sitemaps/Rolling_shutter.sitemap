@@ -1,8 +1,13 @@
 sitemap Rolling_shutter label="Main Menu"
 {
+	Frame label="test"{
+			Text   item=wind 		label="Wind : [%s]"
+			Text   item=aRain     label="aRain : [%s]"
+			Text   item=dRain     label="dRain : [%s]"
+	}
 	Frame label="Meteo"{
-			Text   item=Temperature valuecolor=[>=30="red",>25="orange",>15="green",>5="orange",<=5="blue"] label="Temperature : [%.2f] °C"
-			Text   item=Humidity_Out valuecolor=[>90="red",>75="orange",50="green",<=25="blue"]	label="Humidité :	 [%s]%"
+			Text   item=Temperature valuecolor=[>=30="red",>20="orange",>0="green",<0="blue"] label="Temperature : [%.2f] °C"
+			Text   item=Humidity_Out valuecolor=[>90="red",>75="orange",>50="green",>25="blue"]	label="Humidité :	 [%s]%"
 			Text   item=Luminosity 	label="Luminosité :	 [%s] lux"
 	}
 	Frame label="Barometre"{
@@ -20,4 +25,5 @@ sitemap Rolling_shutter label="Main Menu"
 			Text   item=countMotion     label="Count : [%s]"
 			Switch item=reset
 	}
+	
 }

@@ -26,9 +26,9 @@ when
 then
 	val temp = (Float::parseFloat(Temperature_Out.state.toString)+(Float::parseFloat(temp_Bmp.state.toString)-1))/2
 	sendCommand(Temperature, temp)
-	logDebug("Temperature_Out", "Temperature_Out :" + Temperature_Out.state.toString)
-	logDebug("Temperature_Out", "temp_Bmp :" + temp_Bmp.state.toString)
-	logDebug("Temperature_Out", "Moyenne :" + Temperature.state.toString)
+	//logDebug("Temperature_Out", "Temperature_Out :" + Temperature_Out.state.toString)
+	//logDebug("Temperature_Out", "temp_Bmp :" + temp_Bmp.state.toString)
+	//logDebug("Temperature_Out", "Moyenne :" + Temperature.state.toString)
 	
 	
 end
@@ -61,9 +61,16 @@ then
  when
  	Item pressure changed
 then
-	logDebug("Pressure", "Pressure :" + pressure.state.toString)
+	//logDebug("Pressure", "Pressure :" + pressure.state.toString)
 	sendCommand(Pressure,(Float::parseFloat(pressure.state.toString)*Math::pow(10,-2)))
 	
+end
+
+rule Wind
+when
+	Item wind changed
+then
+		logDebug("Wind", "Wind :" + wind.state.toString)
 end
 
 
