@@ -23,7 +23,7 @@ end
   
 rule Position
 when 
-	Item Positioning received command
+	Item Positioning received command 
 then
 	logDebug("Positioning rule","Startup Positioning rule")
 	val com = receivedCommand.toString.splitByWholeSeparator(":")

@@ -1,15 +1,22 @@
 sitemap Rolling_shutter label="Main Menu"
 {
+	Frame label= "Evolution temp:"{
+		Chart item=HumiTemp period=h refresh=60000 service=jdbc
+	}
+	
 	Frame label="test"{
 			Text   item=wind 		label="Wind : [%s]"
 			Text   item=aRain     label="aRain : [%s]"
 			Text   item=dRain     label="dRain : [%s]"
-	}
+			Text   item=windTemp     label="windTemp : [%s]"
+			Text   item=windHumi     label="windHumi : [%s]"			
+	} 
 	Frame label="Meteo"{
 			Text   item=Temperature valuecolor=[>=30="red",>20="orange",>0="green",<0="blue"] label="Temperature : [%.2f] °C"
 			Text   item=Humidity_Out valuecolor=[>90="red",>75="orange",>50="green",>25="blue"]	label="Humidité :	 [%s]%"
 			Text   item=Luminosity 	label="Luminosité :	 [%s] lux"
 	}
+	
 	Frame label="Barometre"{
 			Text   item=Pressure 		label="Hp : [%.2f]"
 			Text   item=Alti     label="M : [%s]"

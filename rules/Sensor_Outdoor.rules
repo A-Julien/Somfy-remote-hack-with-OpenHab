@@ -65,14 +65,14 @@ then
 	sendCommand(Pressure,(Float::parseFloat(pressure.state.toString)*Math::pow(10,-2)))
 	
 end
-
+/*
 rule Wind
 when
 	Item wind changed
 then
 		logDebug("Wind", "Wind :" + wind.state.toString)
 end
-
+ */
 
 
 

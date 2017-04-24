@@ -3,6 +3,6 @@ when
 	System started
 then
 	//sendCommand(cronsec, 1) //boot the cron rules
-	sendCommand(countMotion,0)
+	sendCommand(States,0)
 	logDebug("stratup", "SART_UP GUEYS !")		
 end

@@ -1,0 +1,39 @@
+import org.openhab.model.script.actions.*
+import org.openhab.core.library.types.*
+import java.util.Calendar
+import java.util.Date
+import java.util.TimeZone
+import java.text.SimpleDateFormat
+import java.lang.Math
+import java.util.DateTime
+import org.joda.time.*
+    
+
+
+rule TooHot
+when
+	Item Temperature received command
+then
+
+	var hour   = now.getHourOfDay + 2
+	var minute = now.getMinuteOfHour
+	
+	val float temperature = Float::parseFloat(receivedCommand.toString)
+	val int state = Integer::parseInt(States.state.toString)
+	//logDebug("test", "state" + state)	
+	if(temperature >= 25 && state == 0 && hour > 8){
+		sendCommand(States,1)
+		//logDebug("test", "CLOSE TOO HOT")
+		sendCommand(shutter,"MY:0")
+	}else if(temperature <=17 && state == 1){
+		sendCommand(States,0)
+		sendCommand(shutter,"UP:0")
+	}
+end
+
+rule ShutterMorning
+when
+	Time cron  "0 10 * * * ?"
+then
+	sendCommand(shutter,"UP:3")
+end

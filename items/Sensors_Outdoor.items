@@ -1,8 +1,8 @@
-
+Group HumiTemp
 
 String Luminosity "Luminosité [lux]" <sun>
-Number Temperature "Temperature [%.1f]" <temperature>
-Number Pressure <info>
+Number Temperature "Temperature [%.1f]" <temperature> (HumiTemp)
+Number Pressure <info> (HumiTemp)
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //														LDR Resistor																	  //		
@@ -32,3 +32,6 @@ Number temp_Bmp {mqtt="<[mosquitto:/weather/cover/temperature/BMP280:state:defau
 Number wind {mqtt="<[mosquitto:/weather/wind/wind:state:default]"}
 Number aRain {mqtt="<[mosquitto:/weather/wind/anologRain:state:default]"}
 Number dRain {mqtt="<[mosquitto:/weather/wind/digitRain:state:default]"}
+Number windTemp {mqtt="<[mosquitto:/weather/wind/temperature/DTH22:state:default]"}
+Number windHumi {mqtt="<[mosquitto:/weather/wind/humidity/DTH22:state:default]"}
+
