@@ -1,0 +1,14 @@
+import org.openhab.model.script.actions.*
+import org.openhab.core.library.types.*
+
+rule "Chart Update"
+	when			
+		Time cron "0/30 * * * * ?"
+	then
+		sendCommand(chartTemp,Float::parseFloat(Temperature.state.toString))
+		sendCommand(chartHumi,Float::parseFloat(Humidity_Out.state.toString))
+		sendCommand(chartWind,Float::parseFloat(wind.state.toString)) 
+		sendCommand(chartPressure,Float::parseFloat(pressure.state.toString))
+		logDebug("dfsd","qsdf : " +  Float::parseFloat(pressure.state.toString))
+		
+	end

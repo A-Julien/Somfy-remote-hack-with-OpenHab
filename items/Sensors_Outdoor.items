@@ -2,7 +2,7 @@ Group HumiTemp
 
 String Luminosity "Luminosité [lux]" <sun>
 Number Temperature "Temperature [%.1f]" <temperature> (HumiTemp)
-Number Pressure <info> (HumiTemp)
+Number Pressure <info> 
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //														LDR Resistor																	  //		
@@ -15,7 +15,7 @@ String Lum  {mqtt="<[mosquitto:/weather/cover/luminosity/LDR:state:default]"}
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 Number Temperature_Out {mqtt="<[mosquitto:/weather/cover/temperature/DTH22:state:default]"}
-Number Humidity_Out "Humidity" <water> {mqtt="<[mosquitto:/weather/cover/humidity/DTH22:state:default]"}
+Number Humidity_Out "Humidity" <water>  (HumiTemp) {mqtt="<[mosquitto:/weather/cover/humidity/DTH22:state:default]"} 
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //														SENSOR BMP280															  //		

@@ -33,7 +33,14 @@ end
 
 rule ShutterMorning
 when
-	Time cron  "0 10 * * * ?"
+	Time cron  "0 0 6 ? * MON-FRI *"
 then
 	sendCommand(shutter,"UP:3")
+end
+
+rule ShutterEvening
+when
+	Time cron  "0 0 19 ? * MON-FRI *"
+then
+	sendCommand(shutter,"MY:3")
 end

@@ -6,5 +6,7 @@ Strategies {
 
 Items {
 	//* : strategy = everyChange, everyDay, restoreOnStartup
-	Temperature,Humidity_Out,Pressure : strategy = everyMinutes
+	/*Temperature,Humidity_Out,Pressure,*/
+	chartHumi,chartTemp,chartWind,chartPressure : strategy = everyHour
+	wind : strategy = everyMinutes
 }

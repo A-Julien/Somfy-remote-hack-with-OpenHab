@@ -1,36 +1,44 @@
 sitemap Rolling_shutter label="Main Menu"
-{
-	Frame label= "Evolution temp:"{
-		Chart item=HumiTemp period=h refresh=60000 service=jdbc
-	}
-	
-	Frame label="test"{
-			Text   item=wind 		label="Wind : [%s]"
-			Text   item=aRain     label="aRain : [%s]"
-			Text   item=dRain     label="dRain : [%s]"
-			Text   item=windTemp     label="windTemp : [%s]"
-			Text   item=windHumi     label="windHumi : [%s]"			
-	} 
+{	
 	Frame label="Meteo"{
-			Text   item=Temperature valuecolor=[>=30="red",>20="orange",>0="green",<0="blue"] label="Temperature : [%.2f] °C"
-			Text   item=Humidity_Out valuecolor=[>90="red",>75="orange",>50="green",>25="blue"]	label="Humidité :	 [%s]%"
-			Text   item=Luminosity 	label="Luminosité :	 [%s] lux"
+		Text   item=Temperature valuecolor=[>=30="red",>20="orange",>0="green",<0="blue"] label="Temperature (°C) : [%.2f] "
+		{
+			Text   item=Temperature 	label="Temperature : [%.2f] " 		valuecolor=[>=30="red",>20="orange",>0="green",<0="blue"] 
+			Text   item=windTemp    	label="Temperature resentie : [%s]" valuecolor=[>=30="red",>20="orange",>0="green",<0="blue"] icon="temperature"
+			Text   item=Luminosity 		label="Luminosité :	 [%s] lux"			
+		}
+		Text   item=Humidity_Out	label="Humidité (%):	 [%s]%" 		valuecolor=[>90="red",>75="orange",>50="green",>25="blue"]{
+			Text   item=Humidity_Out	label="Humidité :	 [%s]%" 		valuecolor=[>90="red",>75="orange",>50="green",>25="blue"]	
+			Text   item=windHumi   	 	label="Humidité resentie: [%s]"		valuecolor=[>90="red",>75="orange",>50="green",>25="blue"] icon="water"
+		}
+		Text   item=Alti			label="Altitude (M) : [%s]" icon="grass"
+		Text   item=Pressure 		label=" Pression (Hp) : [%.2f]"
+		Text label="Perturbations" icon="rain" {
+			Text   item=wind 			label="Vent tps réel (m/s) : [%s]" 	icon="wind"
+			Text   item=aRain     		label="Tôt de pluie (ohm) : [%s]"  	icon="rain"
+			Text   item=dRain     		label="Pluie ? : [%s]"				icon="rain"
+		}
+		Text label="Graphiques" icon="line"{
+			Text label="Temperature : " icon="temperature"
+				Chart item=chartTemp period=D  service="mysql" refresh=60000
+			Text label="Humidité :" icon="water"
+				Chart item=chartHumi period=D  service="mysql"refresh=60000
+			Text label="Vents :" icon="wind"
+				Chart item=chartWind period=D  service="mysql" refresh=60000
+		
+		}
 	}
-	
-	Frame label="Barometre"{
-			Text   item=Pressure 		label="Hp : [%.2f]"
-			Text   item=Alti     label="M : [%s]"
+	Frame label="Volets" icon="rollershutter-50"{
+			Switch item=shutter 		label="Julien" 	mappings=["UP:3"="UP", "DOWN:3"="Down", "MY:3"="MY"]	
+			Switch item=shutter 		label="Parent" 	mappings=["UP:2"="UP", "DOWN:2"="Down", "MY:2"="MY"]	
+			Switch item=shutter 		label="Burreau"	mappings=["UP:1"="UP", "DOWN:1"="Down", "MY:1"="MY"]
+			Switch item=shutter 		label="TOUT" 	mappings=["UP:0"="UP", "DOWN:0"="Down", "MY:0"="MY"]
 	}
-	Frame label="Volets"{
-		    Switch item=shutter 	label="Julien" 	mappings=["UP:3"="UP", "DOWN:3"="Down", "MY:3"="MY"]	
-			Switch item=shutter 	label="Parent" 	mappings=["UP:2"="UP", "DOWN:2"="Down", "MY:2"="MY"]	
-			Switch item=shutter 	label="Burreau"	mappings=["UP:1"="UP", "DOWN:1"="Down", "MY:1"="MY"]
-			Switch item=shutter 	label="TOUT" 	mappings=["UP:0"="UP", "DOWN:0"="Down", "MY:0"="MY"]
-	}
+	/*
 	Frame label="Motion"{
 			Text   item=Motion_S 		label="Motion : [%s]"
 			Text   item=countMotion     label="Count : [%s]"
 			Switch item=reset
-	}
+	} */
 	
 }
